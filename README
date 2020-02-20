@@ -1,0 +1,37 @@
+# This app calculates 3D Harris keypoints on voxel grids (sdf grids) with opengl compute shader on a offscreen framebuffer
+
+## Create virtual display for your gpus
+
+### Tell nvidia app to create a fake display with some resolution
+
+1. copy/backup following file: /etc/X11/xorg.config
+
+2. nvidia-xconfig -a --use-display-device=None --virtual=1280x1024 
+
+3. reboot (really do it otherwise it won't work)
+
+### Start xserver
+
+1. Check if X is running
+
+ps aux | grep X
+my system produced: 
+"root 1945 0.1 0.1 212380 51960 tty7 Ss+ 14:23 0:04 /usr/bin/X :0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch"
+
+2. If you get a similar output, kill X: 
+sudo service lightdm stop
+
+3. Check if X is still running 
+ps aux | grep X
+<should be="" empty="" now="">
+
+4. start local X
+/usr/bin/X :0 </dev/null &>/dev/null &
+
+5. check the configuration 
+env DISPLAY=:0 glewinfo | less
+
+6. set new display
+export DISPLAY=:0
+
+
